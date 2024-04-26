@@ -1,4 +1,3 @@
-import keras
 from keras.layers import Conv2D, Input, Flatten, Dense, Lambda
 from keras.models import Model
 from keras import backend as K
@@ -7,19 +6,16 @@ class Encoder:
     def __init__(self, input_shape, latent_dim):
         self.input_shape = input_shape
         self.latent_dim = latent_dim
-        self.encoder = self.build_encoder()
         self.conv_shape = None
+        self.model = self.build_encoder()
 
     def build_encoder(self):
-        input_img = Input(shape=self.input_shape, name='encoder_input')
-        x = Conv2D(64, 5, padding='same', activation='relu')(input_img)
-        x = Conv2D(64, 5, padding='same', activation='relu', strides=(2, 2))(x)
+        input_shape = self.input_shape[-3:]
+        input_img = Input(shape=input_shape, name='encoder_input')
+        x = Conv2D(32, 3, padding='same', activation='relu')(input_img)
+        x = Conv2D(64, 3, padding='same', activation='relu', strides=(2,2))(x)
         x = Conv2D(64, 3, padding='same', activation='relu')(x)
         x = Conv2D(64, 3, padding='same', activation='relu')(x)
-        x = Conv2D(64, 3, padding='same', activation='relu')(x)
-        x = Conv2D(64, 3, padding='same', activation='relu')(x)
-        x = Conv2D(32, 3, padding='same', activation='relu')(x)
-        x = Conv2D(32, 3, padding='same', activation='relu')(x)
 
         self.conv_shape = K.int_shape(x)
         x = Flatten()(x)

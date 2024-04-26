@@ -1,5 +1,4 @@
 import tensorflow as tf
-import keras
 from keras.layers import Input
 from tensorflow.keras.layers import Layer
 from tensorflow.keras import backend as K
@@ -34,6 +33,7 @@ class VariationalAutoencoder:
         self.num_channels = num_channels
         self.encoder = self.build_encoder()
         self.decoder = self.build_decoder()
+        self.model = self.build_vae()
 
     def build_encoder(self):
         return Encoder(self.input_shape, self.latent_dim)
@@ -43,9 +43,10 @@ class VariationalAutoencoder:
 
     def build_vae(self):
         # Combine encoder and decoder
-        input_img = Input(shape=self.input_shape, name='encoder_input')
-        z_mu, z_sigma, z = self.encoder(input_img)
-        z_decoded = self.decoder(z)
+        input_shape = self.input_shape[-3:]
+        input_img = Input(shape=input_shape, name='encoder_input')
+        z_mu, z_sigma, z = self.encoder.model(input_img)
+        z_decoded = self.decoder.model(z)
 
         # Create custom layer
         custom_layer = CustomLayer()

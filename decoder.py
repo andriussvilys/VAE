@@ -1,14 +1,12 @@
-import keras
 from keras.layers import Input, Dense, Reshape, Conv2DTranspose
 from keras.models import Model
-from keras import backend as K
 
 class Decoder:
     def __init__(self, latent_dim, conv_shape, num_channels):
         self.latent_dim = latent_dim
         self.conv_shape = conv_shape
         self.num_channels = num_channels
-        self.decoder = self.build_decoder()
+        self.model = self.build_decoder()
 
     def build_decoder(self):
         decoder_input = Input(shape=(self.latent_dim,), name='decoder_input')
