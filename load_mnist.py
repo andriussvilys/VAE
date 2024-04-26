@@ -19,7 +19,7 @@ class MNISTDataLoader:
 
         img_width = x_train.shape[1]
         img_height = x_train.shape[2]
-        num_channels = x_train.shape[-1]
+        num_channels = 1
         x_train = x_train.reshape(x_train.shape[0], img_height, img_width, num_channels)
         x_test = x_test.reshape(x_test.shape[0], img_height, img_width, num_channels)
         self.data = (x_train, x_test)
@@ -27,8 +27,9 @@ class MNISTDataLoader:
 
     def plot_samples(self, num_samples=3):
         plt.figure(figsize=(10, 6))
+        x_train, _ = self.data
         for i in range(num_samples):
             plt.subplot(1, num_samples, i + 1)
-            plt.imshow(self.data[i][:, :, 0], cmap='gray')
+            plt.imshow(x_train[i][:, :, 0], cmap='gray')
             plt.axis('off')
         plt.show()
