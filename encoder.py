@@ -12,8 +12,16 @@ class Encoder:
     def build_encoder(self):
         input_shape = self.input_shape[-3:]
         input_img = Input(shape=input_shape, name='encoder_input')
-        x = Conv2D(32, 3, padding='same', activation='relu')(input_img)
-        x = Conv2D(64, 3, padding='same', activation='relu', strides=(2,2))(x)
+        # x = Conv2D(32, 3, padding='same', activation='relu')(input_img)
+        # x = Conv2D(64, 3, padding='same', activation='relu', strides=(2,2))(x)
+        # x = Conv2D(64, 3, padding='same', activation='relu')(x)
+        # x = Conv2D(64, 3, padding='same', activation='relu')(x)
+        x = Conv2D(32, 15, padding='same', activation='relu')(input_img)
+        x = Conv2D(128, 11, padding='same', activation='relu', strides=(2,2))(x)
+        x = Conv2D(128, 9, padding='same', activation='relu')(x)
+        x = Conv2D(128, 7, padding='same', activation='relu')(x)
+        x = Conv2D(128, 9, padding='same', activation='relu')(x)
+        x = Conv2D(128, 7, padding='same', activation='relu')(x)
         x = Conv2D(64, 3, padding='same', activation='relu')(x)
         x = Conv2D(64, 3, padding='same', activation='relu')(x)
 
